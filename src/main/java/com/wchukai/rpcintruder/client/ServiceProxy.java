@@ -1,14 +1,17 @@
-package com.chulung.rpcintruder.client;
+package com.wchukai.rpcintruder.client;
 
-import com.chulung.rpcintruder.servlet.RpcRequest;
-import com.chulung.rpcintruder.codec.Codec;
-import com.chulung.rpcintruder.codec.HessianCodec;
-import com.chulung.rpcintruder.servlet.RpcResponse;
+import com.wchukai.rpcintruder.codec.Codec;
+import com.wchukai.rpcintruder.codec.HessianCodec;
+import com.wchukai.rpcintruder.servlet.RpcRequest;
+import com.wchukai.rpcintruder.servlet.RpcResponse;
 import org.apache.commons.io.IOUtils;
-import org.springframework.cglib.proxy.*;
+import org.springframework.cglib.proxy.MethodInterceptor;
+import org.springframework.cglib.proxy.MethodProxy;
 import org.springframework.context.ConfigurableApplicationContext;
 
-import java.io.*;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Method;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -24,6 +27,7 @@ import java.util.Set;
  */
 public class ServiceProxy implements MethodInterceptor {
     private ConfigurableApplicationContext applicationContext;
+    private static String url;
     private Codec codec = new HessianCodec();
     /**
      * 忽略object的方法
@@ -53,10 +57,8 @@ public class ServiceProxy implements MethodInterceptor {
     }
 
     private RpcResponse doRequest(RpcRequest rpcRequest) throws Exception {
-        String url = "http://rpc.trade.yhd.com/rpc";
         HttpURLConnection httpConn = null;
-        URL urlObj = new URL(url);
-        httpConn = (HttpURLConnection) urlObj.openConnection();
+        httpConn = (HttpURLConnection) new URL(url).openConnection();
         int timeout = 30000;
         httpConn.setReadTimeout(timeout);
         httpConn.setConnectTimeout(timeout);
@@ -114,4 +116,7 @@ public class ServiceProxy implements MethodInterceptor {
         }
     }
 
+    public void setUrl(String url) {
+        ServiceProxy.url = url;
+    }
 }

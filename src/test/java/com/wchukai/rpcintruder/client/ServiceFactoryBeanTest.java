@@ -1,12 +1,12 @@
-package com.chulung.rpcintruder.client;
+package com.wchukai.rpcintruder.client;
 
-import com.chulung.service.HelloWorldServie;
+import com.wchukai.service.HelloWorldServie;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Created by chulung on 2017/9/23.
+ * Created by wchukai on 2017/9/23.
  */
 public class ServiceFactoryBeanTest {
     @Test

@@ -1,4 +1,4 @@
-package com.chulung.rpcintruder.client;
+package com.wchukai.rpcintruder.client;
 
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.cglib.proxy.Enhancer;

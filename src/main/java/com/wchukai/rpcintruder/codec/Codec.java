@@ -1,4 +1,4 @@
-package com.chulung.rpcintruder.codec;
+package com.wchukai.rpcintruder.codec;
 
 import java.io.IOException;
 import java.io.OutputStream;

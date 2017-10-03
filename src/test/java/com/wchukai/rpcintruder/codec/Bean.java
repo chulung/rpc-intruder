@@ -1,11 +1,10 @@
-package com.chulung.rpcintruder.codec;
+package com.wchukai.rpcintruder.codec;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.math.BigInteger;
 
 /**
- * Created by chulung on 2017/9/23.
+ * Created by wchukai on 2017/9/23.
  */
 public class Bean extends AbstractBean implements Serializable {
     private BigInteger f;

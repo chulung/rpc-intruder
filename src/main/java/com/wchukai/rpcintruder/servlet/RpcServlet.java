@@ -1,7 +1,7 @@
-package com.chulung.rpcintruder.servlet;
+package com.wchukai.rpcintruder.servlet;
 
-import com.chulung.rpcintruder.codec.Codec;
-import com.chulung.rpcintruder.codec.HessianCodec;
+import com.wchukai.rpcintruder.codec.Codec;
+import com.wchukai.rpcintruder.codec.HessianCodec;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,9 +27,9 @@ import java.util.concurrent.ConcurrentHashMap;
  * Created by wenchukai on 2017/9/8.
  */
 @Component
-public class RpcServlet extends HttpServlet implements ApplicationContextAware {
+public class RpcServlet extends AbstractServlet {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
-    private static ApplicationContext applicationContext; // Spring应用上下文环境
+
     public Map<String, Method> map = new ConcurrentHashMap<>();
     private Codec codec = new HessianCodec();
 
@@ -39,7 +39,6 @@ public class RpcServlet extends HttpServlet implements ApplicationContextAware {
         PrintWriter out = resp.getWriter();
         resp.setContentType("text/html");
         out.println("<h1>Hello,RPC Intruder!</h1>");
-
     }
 
     @Override
@@ -50,7 +49,7 @@ public class RpcServlet extends HttpServlet implements ApplicationContextAware {
         byte[] rpcResponseBytes = null;
         try {
             if (applicationContext == null) {
-                throw new IllegalArgumentException("ApplicationContext is null,please configure <context:component-scan base-package=\"com.chulung.rpcintruder\">.");
+                throw new IllegalArgumentException("ApplicationContext is null,please configure <context:component-scan base-package=\"com.wchukai.rpcintruder\">.");
             }
             RpcRequest rpcRequest = getRpcRequest(request);
             String serviceFullName = rpcRequest.getClassName();
@@ -101,7 +100,4 @@ public class RpcServlet extends HttpServlet implements ApplicationContextAware {
     }
 
 
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        this.applicationContext = applicationContext;
-    }
 }

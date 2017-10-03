@@ -1,4 +1,4 @@
-package com.chulung.rpcintruder.codec;
+package com.wchukai.rpcintruder.codec;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -9,7 +9,7 @@ import java.math.BigInteger;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Created by chulung on 2017/9/23.
+ * Created by wchukai on 2017/9/23.
  */
 public class HessianCodecTest {
     private Bean bean = new Bean();

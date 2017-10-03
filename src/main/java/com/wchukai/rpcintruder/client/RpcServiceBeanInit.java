@@ -1,4 +1,4 @@
-package com.chulung.rpcintruder.client;
+package com.wchukai.rpcintruder.client;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,11 +22,14 @@ public class RpcServiceBeanInit implements BeanDefinitionRegistryPostProcessor {
 
     @Override
     public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry) throws BeansException {
-        logger.info("RPC Intruder 已代理以下service--------------------");
         String enable = System.getProperty("rpc.intruder");
+        if (enable == null) {
+            enable = System.getenv("rpc.intruder");
+        }
         if (isCheckEnv() && !"enabled".equals(enable)) {
             throw new IllegalArgumentException("please configure a environment variable:rpc-inturder=enabled");
         }
+        logger.info("RPC Intruder is being starting.");
         //初始化代理service
         for (String className : this.classNames) {
             Class clazz = null;
@@ -41,10 +44,10 @@ public class RpcServiceBeanInit implements BeanDefinitionRegistryPostProcessor {
             beanDefinition.getPropertyValues().addPropertyValue("serviceClass", clazz);
             String beanName = subName(clazz.getSimpleName());
             //注册bean
-            registry.registerBeanDefinition(beanName + "_rpc", beanDefinition);
-            logger.info("RPC Intruder :" + beanName);
+            registry.registerBeanDefinition(beanName + "_intruder", beanDefinition);
+            logger.info("registerBeanDefinition :" + beanName);
         }
-        logger.info("RPC Intruder 初始化完毕------------------------------");
+        logger.info("RPC Intruder completed.");
     }
 
     private String subName(String simpleName) {

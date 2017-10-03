@@ -1,9 +1,9 @@
-package com.chulung.rpcintruder.codec;
+package com.wchukai.rpcintruder.codec;
 
 import java.math.BigDecimal;
 
 /**
- * Created by chulung on 2017/9/23.
+ * Created by wchukai on 2017/9/23.
  */
 public class AbstractBean {
     private int a;

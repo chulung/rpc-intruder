@@ -1,4 +1,4 @@
-package com.chulung.rpcintruder.codec;
+package com.wchukai.rpcintruder.codec;
 
 import com.caucho.hessian.io.Hessian2Input;
 import com.caucho.hessian.io.Hessian2Output;

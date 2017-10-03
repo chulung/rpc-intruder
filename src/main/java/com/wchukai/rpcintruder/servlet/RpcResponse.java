@@ -1,4 +1,4 @@
-package com.chulung.rpcintruder.servlet;
+package com.wchukai.rpcintruder.servlet;
 
 import java.io.Serializable;
 
