@@ -1,6 +1,7 @@
 package com.wchukai.rpcintruder.codec;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 
 /**
@@ -11,5 +12,5 @@ public interface Codec {
 
     void doEncode(Object request, OutputStream outPut) throws IOException;
 
-    Object doDecode(byte[] bytes) throws IOException;
+    Object doDecode(InputStream inputStream) throws IOException;
 }

@@ -3,10 +3,7 @@ package com.wchukai.rpcintruder.codec;
 import com.caucho.hessian.io.Hessian2Input;
 import com.caucho.hessian.io.Hessian2Output;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
 
 /**
  * hessian编码器
@@ -31,8 +28,8 @@ public class HessianCodec implements Codec {
     }
 
     @Override
-    public Object doDecode(byte[] bytes) throws IOException {
-        Hessian2Input hessian2Input = new Hessian2Input(new ByteArrayInputStream(bytes));
+    public Object doDecode(InputStream inputStream) throws IOException {
+        Hessian2Input hessian2Input = new Hessian2Input(inputStream);
         Object resultObject = hessian2Input.readObject();
         hessian2Input.close();
         return resultObject;

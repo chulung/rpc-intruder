@@ -17,16 +17,13 @@ import java.util.List;
 public class RpcServiceBeanInit implements BeanDefinitionRegistryPostProcessor {
     protected List<String> classNames = new ArrayList<>();
     private Logger logger = LoggerFactory.getLogger(this.getClass());
-
+    private String url;
     private boolean checkEnv = true;
 
     @Override
     public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry) throws BeansException {
-        String enable = System.getProperty("rpc.intruder");
-        if (enable == null) {
-            enable = System.getenv("rpc.intruder");
-        }
-        if (isCheckEnv() && !"enabled".equals(enable)) {
+
+        if (isCheckEnv() && checkEnv()) {
             throw new IllegalArgumentException("please configure a environment variable:rpc-inturder=enabled");
         }
         logger.info("RPC Intruder is being starting.");
@@ -42,12 +39,23 @@ public class RpcServiceBeanInit implements BeanDefinitionRegistryPostProcessor {
             beanDefinition.setBeanClass(ServiceFactoryBean.class);
             beanDefinition.setLazyInit(true);
             beanDefinition.getPropertyValues().addPropertyValue("serviceClass", clazz);
+            ServiceProxy serviceProxy = new ServiceProxy();
+            serviceProxy.setUrl(this.url);
+            beanDefinition.getPropertyValues().addPropertyValue("serviceProxy", serviceProxy);
             String beanName = subName(clazz.getSimpleName());
             //注册bean
             registry.registerBeanDefinition(beanName + "_intruder", beanDefinition);
             logger.info("registerBeanDefinition :" + beanName);
         }
         logger.info("RPC Intruder completed.");
+    }
+
+    private boolean checkEnv() {
+        String enable = System.getProperty("rpc.intruder");
+        if (enable == null) {
+            enable = System.getenv("rpc.intruder");
+        }
+        return "enabled".equals(enable);
     }
 
     private String subName(String simpleName) {
@@ -73,5 +81,13 @@ public class RpcServiceBeanInit implements BeanDefinitionRegistryPostProcessor {
 
     public void setCheckEnv(boolean checkEnv) {
         this.checkEnv = checkEnv;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 }

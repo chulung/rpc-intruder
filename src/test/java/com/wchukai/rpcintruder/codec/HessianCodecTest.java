@@ -3,6 +3,7 @@ package com.wchukai.rpcintruder.codec;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.ByteArrayInputStream;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
@@ -27,7 +28,7 @@ public class HessianCodecTest {
     @Test
     public void doEncode() throws Exception {
         byte[] bytes = codec.doEncode(bean);
-        Object actual = codec.doDecode(bytes);
+        Object actual = codec.doDecode(new ByteArrayInputStream(bytes));
         assertThat(actual).isEqualToComparingFieldByField(bean);
     }
 

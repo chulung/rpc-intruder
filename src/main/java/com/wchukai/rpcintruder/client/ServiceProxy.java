@@ -27,7 +27,7 @@ import java.util.Set;
  */
 public class ServiceProxy implements MethodInterceptor {
     private ConfigurableApplicationContext applicationContext;
-    private static String url;
+
     private Codec codec = new HessianCodec();
     /**
      * 忽略object的方法
@@ -38,6 +38,7 @@ public class ServiceProxy implements MethodInterceptor {
                 add(method);
         }
     };
+    private String url;
 
 
     @Override
@@ -57,8 +58,7 @@ public class ServiceProxy implements MethodInterceptor {
     }
 
     private RpcResponse doRequest(RpcRequest rpcRequest) throws Exception {
-        HttpURLConnection httpConn = null;
-        httpConn = (HttpURLConnection) new URL(url).openConnection();
+        HttpURLConnection httpConn = (HttpURLConnection) new URL(url).openConnection();
         int timeout = 30000;
         httpConn.setReadTimeout(timeout);
         httpConn.setConnectTimeout(timeout);
@@ -89,7 +89,7 @@ public class ServiceProxy implements MethodInterceptor {
                     content = IOUtils.toString(is);
                 }
             } catch (FileNotFoundException e) {
-                throw new Exception(String.valueOf(e));
+                throw new Exception("please check the url.\n"+String.valueOf(e));
             } catch (IOException e) {
                 if (is == null)
                     throw new Exception(code + ": " + e, e);
@@ -100,13 +100,7 @@ public class ServiceProxy implements MethodInterceptor {
             throw new Exception(code + ": " + content);
         }
         try {
-            is = httpConn.getInputStream();
-        } catch (IOException e) {
-            if (is == null)
-                throw new Exception(code + ": " + e, e);
-        }
-        try {
-            return (RpcResponse) codec.doDecode(IOUtils.toByteArray(is));
+            return (RpcResponse) codec.doDecode(httpConn.getInputStream());
         } catch (IOException e) {
             throw new Exception("read InputStream exception ", e);
         } finally {
@@ -117,6 +111,6 @@ public class ServiceProxy implements MethodInterceptor {
     }
 
     public void setUrl(String url) {
-        ServiceProxy.url = url;
+        this.url = url;
     }
 }

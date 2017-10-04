@@ -2,19 +2,13 @@ package com.wchukai.rpcintruder.servlet;
 
 import com.wchukai.rpcintruder.codec.Codec;
 import com.wchukai.rpcintruder.codec.HessianCodec;
-import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletException;
-import javax.servlet.ServletInputStream;
 import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -85,10 +79,7 @@ public class RpcServlet extends AbstractServlet {
     }
 
     private RpcRequest getRpcRequest(HttpServletRequest request) throws Exception {
-        ServletInputStream is = request.getInputStream();
-        byte[] input = IOUtils.toByteArray(is);
-        IOUtils.closeQuietly(is);
-        return (RpcRequest) codec.doDecode(input);
+        return (RpcRequest) codec.doDecode(request.getInputStream());
     }
 
     private void initMethod(Class service, String serviceFullName, String methodName) {

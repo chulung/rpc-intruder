@@ -11,7 +11,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class ServiceFactoryBeanTest {
     @Test
     public void createProxy() throws Exception {
-        HelloWorldServie helloWorldServie = new ServiceFactoryBean().createProxy(HelloWorldServie.class);
+        ServiceFactoryBean serviceFactoryBean = new ServiceFactoryBean();
+        serviceFactoryBean.setServiceClass(HelloWorldServie.class);
+        serviceFactoryBean.setServiceProxy(new ServiceProxy());
+        HelloWorldServie helloWorldServie = (HelloWorldServie) serviceFactoryBean.getObject();
         assertThat(helloWorldServie.getClass().getName().split("\\$\\$")[0]).isEqualTo(HelloWorldServie.class.getName());
     }
 }

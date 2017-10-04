@@ -9,8 +9,7 @@ import org.springframework.cglib.proxy.Enhancer;
 public class ServiceFactoryBean implements FactoryBean {
 
     private Class serviceClass;
-    private static final ServiceProxy serviceProxy = new ServiceProxy();
-
+    private ServiceProxy serviceProxy ;
     @Override
     public Object getObject() throws Exception {
         return createProxy(this.serviceClass);
@@ -50,5 +49,11 @@ public class ServiceFactoryBean implements FactoryBean {
         this.serviceClass = serviceClass;
     }
 
+    public void setServiceProxy(ServiceProxy serviceProxy) {
+        this.serviceProxy = serviceProxy;
+    }
 
+    public ServiceProxy getServiceProxy() {
+        return serviceProxy;
+    }
 }
