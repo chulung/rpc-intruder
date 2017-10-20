@@ -1,6 +1,5 @@
 package com.wchukai.rpcintruder.client;
 
-import com.wchukai.service.BeanInitService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @ContextConfiguration(locations = "classpath:rpc-bean-init.xml")
 public class RpcServiceBeanInitTest {
     @Autowired
-    private BeanInitService beanInitService;
+    private RpcServiceBeanInit beanInitService;
 
     @Autowired
     RpcServiceBeanInit rpcServiceBeanInit;

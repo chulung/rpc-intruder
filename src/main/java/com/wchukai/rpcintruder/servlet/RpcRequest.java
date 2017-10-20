@@ -3,13 +3,13 @@ package com.wchukai.rpcintruder.servlet;
 import java.io.Serializable;
 
 public class RpcRequest implements Serializable {
-	
+
 	private static final long serialVersionUID = -2226632814980198240L;
 
 	private String className;
-	
+
 	private String methodName;
-	
+
 	private Object[] args;
 
 	public String getClassName() {

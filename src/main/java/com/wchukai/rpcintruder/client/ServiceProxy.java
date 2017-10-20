@@ -26,16 +26,18 @@ import java.util.Set;
  * service代理，代替已有的RPC服务发起请求
  */
 public class ServiceProxy implements MethodInterceptor {
+    public static final int HTTP_STATU_OK = 200;
     private ConfigurableApplicationContext applicationContext;
 
     private Codec codec = new HessianCodec();
     /**
      * 忽略object的方法
      */
-    public Set<Method> IgnoreMethods = new HashSet() {
+    public Set<Method> ignoreMethods = new HashSet() {
         {
-            for (Method method : Object.class.getMethods())
+            for (Method method : Object.class.getMethods()) {
                 add(method);
+            }
         }
     };
     private String url;
@@ -43,7 +45,7 @@ public class ServiceProxy implements MethodInterceptor {
 
     @Override
     public Object intercept(Object o, Method method, Object[] objects, MethodProxy methodProxy) throws Throwable {
-        if (IgnoreMethods.contains(method)) {
+        if (ignoreMethods.contains(method)) {
             return methodProxy.invokeSuper(o, objects);
         }
         RpcRequest rpcRequest = new RpcRequest();
@@ -77,7 +79,7 @@ public class ServiceProxy implements MethodInterceptor {
             throw new Exception("getResponseCode  exception ", e);
         }
         InputStream is = null;
-        if (code != 200) {
+        if (code != HTTP_STATU_OK) {
             String content = null;
             try {
                 is = httpConn.getInputStream();
@@ -91,8 +93,9 @@ public class ServiceProxy implements MethodInterceptor {
             } catch (FileNotFoundException e) {
                 throw new Exception("please check the url.\n"+String.valueOf(e));
             } catch (IOException e) {
-                if (is == null)
+                if (is == null) {
                     throw new Exception(code + ": " + e, e);
+                }
             }
             if (is != null) {
                 IOUtils.closeQuietly(is);
