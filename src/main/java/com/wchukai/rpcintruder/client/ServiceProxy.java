@@ -5,6 +5,8 @@ import com.wchukai.rpcintruder.codec.HessianCodec;
 import com.wchukai.rpcintruder.servlet.RpcRequest;
 import com.wchukai.rpcintruder.servlet.RpcResponse;
 import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.cglib.proxy.MethodInterceptor;
 import org.springframework.cglib.proxy.MethodProxy;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -19,13 +21,15 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Created by wenchukai on 2017/9/8.
+ * Created by wchukai on 2017/9/8.
  */
 
 /**
  * service代理，代替已有的RPC服务发起请求
+ * @author chukai
  */
 public class ServiceProxy implements MethodInterceptor {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ServiceProxy.class);
     public static final int HTTP_STATU_OK = 200;
     private ConfigurableApplicationContext applicationContext;
 
@@ -52,6 +56,9 @@ public class ServiceProxy implements MethodInterceptor {
         rpcRequest.setClassName(o.getClass().getName().split("\\$\\$")[0]);
         rpcRequest.setMethodName(method.getName());
         rpcRequest.setArgs(objects);
+        if (LOGGER.isInfoEnabled()) {
+            LOGGER.info("request:url:{},interface:{},method:{}", new Object[]{url, rpcRequest.getClassName(), rpcRequest.getMethodName()});
+        }
         RpcResponse rpcResponse = doRequest(rpcRequest);
         if (rpcResponse.getException() != null) {
             throw rpcResponse.getException();
@@ -91,7 +98,7 @@ public class ServiceProxy implements MethodInterceptor {
                     content = IOUtils.toString(is);
                 }
             } catch (FileNotFoundException e) {
-                throw new Exception("please check the url.\n"+String.valueOf(e));
+                throw new Exception("please check the url.\n" + String.valueOf(e));
             } catch (IOException e) {
                 if (is == null) {
                     throw new Exception(code + ": " + e, e);

@@ -5,7 +5,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 /**
- * Created by wenchukai on 2017/9/23.
+ * Created by wchukai on 2017/9/23.
  */
 public interface Codec {
     byte[] doEncode(Object request) throws IOException;

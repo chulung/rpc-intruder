@@ -12,7 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by wenchukai on 2017/9/8.
+ *
+ * @author wchukai
  */
 public class RpcServiceBeanInit implements BeanDefinitionRegistryPostProcessor {
     protected List<String> classNames = new ArrayList<>();

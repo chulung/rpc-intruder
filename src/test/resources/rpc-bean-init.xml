@@ -10,10 +10,10 @@
     <bean class="com.wchukai.rpcintruder.client.RpcServiceBeanInit">
         <property name="classNames">
             <list>
-                <value>com.wchukai.service.BeanInitService</value>
+                <value>com.wchukai.service.HelloWorldServie</value>
             </list>
         </property>
         <property name="checkEnv" value="false"/>
-        <property name="url" value="http://127.0.0.1/rpc"/>
+        <property name="url" value="http://127.0.0.1/rpc-intruder"/>
     </bean>
 </beans>

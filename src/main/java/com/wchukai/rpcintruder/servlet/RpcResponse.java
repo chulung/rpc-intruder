@@ -1,7 +1,9 @@
 package com.wchukai.rpcintruder.servlet;
 
 import java.io.Serializable;
-
+/**
+ * @author chukai
+ */
 public class RpcResponse implements Serializable {
 
     private static final long serialVersionUID = -8668813118294924795L;

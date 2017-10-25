@@ -15,7 +15,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @ContextConfiguration(locations = "classpath:rpc-bean-init.xml")
 public class RpcServletTest extends AbstractServlet {
     @Autowired
-    private RpcServlet rpcServlet;
+    private IntruderServlet rpcServlet;
 
     @Test
     public void applicationContextTest() {

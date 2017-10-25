@@ -4,7 +4,8 @@ import org.springframework.beans.factory.FactoryBean;
 import org.springframework.cglib.proxy.Enhancer;
 
 /**
- * Created by wenchukai on 2017/9/8.
+ *
+ * @author wchukai
  */
 public class ServiceFactoryBean implements FactoryBean {
 
@@ -19,9 +20,9 @@ public class ServiceFactoryBean implements FactoryBean {
     /**
      * 创建代理
      *
-     * @param clazz
-     * @param <T>
-     * @return
+     * @param clazz service class
+     * @param <T> type of service
+     * @return proxy of service
      */
     public <T> T createProxy(Class<T> clazz) {
         Enhancer enhancer = new Enhancer();

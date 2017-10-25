@@ -30,6 +30,6 @@ public class RpcServiceBeanInitTest {
     @Test
     public void beanInitTest() {
         assertThat(beanInitService).isNotNull();
-        assertThat(rpcServiceBeanInit).hasFieldOrPropertyWithValue("url","http://127.0.0.1/rpc");
+        assertThat(rpcServiceBeanInit).hasFieldOrPropertyWithValue("url","http://127.0.0.1/rpc-intruder");
     }
 }

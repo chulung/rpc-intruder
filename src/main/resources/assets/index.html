@@ -3,25 +3,214 @@
 <head>
     <meta charset="UTF-8">
     <!-- 引入样式 -->
-    <link rel="stylesheet" href="?action=assets&path=assets/index.css">
+    <link rel="stylesheet" href="?action=asset&path=ele.css">
 </head>
 <body>
 <div id="app">
-    <el-button @click="visible = true">按钮</el-button>
-    <el-dialog v-model="visible" title="Hello world">
-        <p>欢迎使用 Element</p>
-    </el-dialog>
+    <el-row>
+        <el-col :span="24">
+            <el-form :model="reg" :rules="regRules" ref="reg" :inline="true">
+                <el-form-item label="className" prop="className">
+                    <el-input type="reg.className" placeholder="e.g.com.wchukai.service.helloService"
+                              v-model="reg.className"
+                              auto-complete="off"></el-input>
+                </el-form-item>
+                <el-form-item>
+                    <el-button type="primary" @click="initService">初始化service</el-button>
+                </el-form-item>
+            </el-form>
+        </el-col>
+    </el-row>
+    <el-row>
+        <el-form :model="invoker" ref="invoker" :inline="true">
+            <el-form-item prop="selectClass">
+                <el-select placeholder="请选择类" v-model="selectClass" @change="onSelectClass">
+                    <el-option
+                            v-for="item in classInfos"
+                            :key="item.interfaceName"
+                            :label="item.interfaceName"
+                            :value="item.interfaceName">
+                    </el-option>
+                </el-select>
+            </el-form-item>
+            <el-form-item prop="id">
+                <el-select v-model.number="invoker.id" placeholder="请选择接口" @change="onSelectMethod">
+                    <el-option
+                            v-for="item in methodInfos"
+                            :key="item.id"
+                            :label="item.methodName"
+                            :value="item.id">
+                    </el-option>
+                </el-select>
+            </el-form-item>
+            <el-form-item>
+                <el-button type="primary" @click="invoke">调用</el-button>
+            </el-form-item>
+        </el-form>
+        <el-col :span="12">
+            <el-tabs type="border-card">
+                <el-tab-pane label="入参"></el-tab-pane>
+
+                <textarea v-model="invoker.args" style="width: 100%;height: 100%" rows="30"></textarea>
+            </el-tabs>
+        </el-col>
+        <el-col :span="12">
+            <el-tabs type="border-card">
+                <el-tab-pane label="返回值"></el-tab-pane>
+                <textarea v-model="invoker.result" style="width: 100%;height: 100%" rows="30"></textarea>
+            </el-tabs>
+        </el-col>
+    </el-row>
 </div>
 </body>
 <!-- 先引入 Vue -->
-<script src="?action=assets&path=assets/vue.js"></script>
+<script type="text/javascript" src="?action=asset&path=vue.js"></script>
 <!-- 引入组件库 -->
-<script src="?action=assets&path=assets/ele.js"></script>
+<script type="text/javascript" src="?action=asset&path=ele.js"></script>
+<script type="text/javascript" src="?action=asset&path=axios.js"></script>
 <script>
-    new Vue({
+    function formatJson(txt, compress) {
+        console.log(txt)
+        var indentChar = '    ';
+        if (/^\s*$/.test(txt)) {
+            return txt;
+        }
+        try {
+            var data = eval('(' + txt + ')');
+        } catch (e) {
+            return txt;
+        }
+        var draw = [], last = false, This = this, line = compress ? '' : '\n', nodeCount = 0, maxDepth = 0;
+
+        var notify = function (name, value, isLast, indent/*缩进*/, formObj) {
+            nodeCount++;
+            /*节点计数*/
+            for (var i = 0, tab = ''; i < indent; i++)tab += indentChar;
+            /* 缩进HTML */
+            tab = compress ? '' : tab;
+            /*压缩模式忽略缩进*/
+            maxDepth = ++indent;
+            /*缩进递增并记录*/
+            if (value && value.constructor == Array) {/*处理数组*/
+                draw.push(tab + (formObj ? ('"' + name + '":') : '') + '[' + line);
+                /*缩进'[' 然后换行*/
+                for (var i = 0; i < value.length; i++)
+                    notify(i, value[i], i == value.length - 1, indent, false);
+                draw.push(tab + ']' + (isLast ? line : (',' + line)));
+                /*缩进']'换行,若非尾元素则添加逗号*/
+            } else if (value && typeof value == 'object') {/*处理对象*/
+                draw.push(tab + (formObj ? ('"' + name + '":') : '') + '{' + line);
+                /*缩进'{' 然后换行*/
+                var len = 0, i = 0;
+                for (var key in value)len++;
+                for (var key in value)notify(key, value[key], ++i == len, indent, true);
+                draw.push(tab + '}' + (isLast ? line : (',' + line)));
+                /*缩进'}'换行,若非尾元素则添加逗号*/
+            } else {
+                if (typeof value == 'string') value = '"' + value + '"';
+                draw.push(tab + (formObj ? ('"' + name + '":') : '') + value + (isLast ? '' : ',') + line);
+            }
+            ;
+        };
+        var isLast = true, indent = 0;
+        notify('', data, isLast, indent, false);
+        return draw.join('');
+    }
+    var vm = new Vue({
         el: '#app',
-        data: function() {
-            return { visible: false }
+        data: function () {
+            return {
+                reg: {
+                    className: null
+                },
+                regRules: {
+                    className: [
+                        {required: true, message: '请输入className', trigger: 'blur'}
+                    ]
+                },
+                classInfos: [],
+                methodInfos: [],
+                invoker: {
+                    args: "[]",
+                    result: "",
+                    id: ''
+                },
+                selectClass: null,
+                invokerRules: {}
+            }
+        },
+        created: function () {
+            this.beanInfo();
+        },
+        methods: {
+            initService: function () {
+                _this = this
+                this.$refs['reg'].validate(function (valid) {
+                    if (valid) {
+                        axios.get("?action=reg&className=" + _this.reg.className).then(function (res) {
+                            if (_this.handleError(res.data)) {
+                                _this.classInfos = res.data.result;
+                                _this.selectClass = _this.reg.className;
+                                _this.onSelectClass(_this.reg.className);
+                            }
+                        })
+                    } else {
+                        console.log('error submit!!');
+                        return false;
+                    }
+                });
+            },
+            invoke: function () {
+                _this = this
+                console.log(_this.invoker.id)
+                if (_this.invoker.id) {
+                    axios.get("?action=invoke&id=" + _this.invoker.id + "&args=" + encodeURI(JSON.stringify(JSON.parse(_this.invoker.args)))).then(function (res) {
+                        _this.invoker.result = res.data.error || formatJson(JSON.stringify(res.data.result));
+                    })
+                } else {
+                    this.$message('请选择接口');
+                }
+            },
+            beanInfo: function () {
+                _this = this
+                axios.get("?action=beanInfo").then(function (res) {
+                    if (_this.handleError(res.data)) {
+                        _this.classInfos = res.data.result;
+                    }
+                })
+            }
+
+            ,
+            onSelectClass: function (val) {
+                console.log(val)
+                for (var i = 0; i < this.classInfos.length; i++) {
+                    if (this.classInfos[i].interfaceName === val) {
+                        this.methodInfos = this.classInfos[i].methodInfos
+                    }
+                }
+            }
+            ,
+            onSelectMethod: function (val) {
+                console.log(val)
+                for (var i = 0; i < this.methodInfos.length; i++) {
+                    if (this.methodInfos[i].id === val) {
+                        this.invoker.args = formatJson(this.methodInfos[i].argsInfo)
+                        this.invoker.result = ""
+                        console.log(this.invoker)
+                    }
+                }
+            }
+            ,
+            handleError: function (data) {
+                if (data.error) {
+                    this.$notify.error({
+                        title: '错误',
+                        message: data.error
+                    });
+                    return false;
+                }
+                return true
+            }
         }
     })
 </script>

@@ -7,7 +7,7 @@ import java.io.*;
 
 /**
  * hessian编码器
- * Created by wenchukai on 2017/9/23.
+ * @author chukai
  */
 public class HessianCodec implements Codec {
 
