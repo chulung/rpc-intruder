@@ -8,9 +8,6 @@ import java.io.OutputStream;
  * Created by wchukai on 2017/9/23.
  */
 public interface Codec {
-    byte[] doEncode(Object request) throws IOException;
-
-    void doEncode(Object request, OutputStream outPut) throws IOException;
-
+    void doEncode(Object object, OutputStream outPut) throws IOException;
     Object doDecode(InputStream inputStream) throws IOException;
 }

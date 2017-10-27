@@ -12,15 +12,6 @@ import java.io.*;
 public class HessianCodec implements Codec {
 
     @Override
-    public byte[] doEncode(Object request) throws IOException {
-        ByteArrayOutputStream byteArray = new ByteArrayOutputStream();
-        Hessian2Output output = new Hessian2Output(byteArray);
-        output.writeObject(request);
-        output.close();
-        return byteArray.toByteArray();
-    }
-
-    @Override
     public void doEncode(Object request, OutputStream outPut) throws IOException {
         Hessian2Output objectOutput = new Hessian2Output(outPut);
         objectOutput.writeObject(request);

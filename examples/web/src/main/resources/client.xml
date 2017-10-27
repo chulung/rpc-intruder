@@ -14,13 +14,12 @@
     <!-- rpc intruder-->
 
     <context:component-scan base-package="com.wchukai"/>
-    <bean class="com.wchukai.rpcintruder.client.RpcServiceBeanInit">
+    <bean class="com.wchukai.rpcintruder.client.ClientConfiguration">
         <property name="classNames">
             <list>
                 <value>com.wchukai.service.HelloService2</value>
             </list>
         </property>
-        <property name="checkEnv" value="false"/>
         <property name="url" value="http://127.0.0.1:8080/rpc-intruder"/>
     </bean>
 </beans>

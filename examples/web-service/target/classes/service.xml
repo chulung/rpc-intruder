@@ -9,5 +9,6 @@
     <dubbo:protocol name="dubbo" port="20880"/>
     <dubbo:service interface="com.wchukai.service.HelloService" ref="helloService"/>
 
+    <bean class="com.wchukai.rpcintruder.service.context.InvocationContext"></bean>
 </beans>
 

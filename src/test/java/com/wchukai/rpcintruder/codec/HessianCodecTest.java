@@ -1,9 +1,12 @@
 package com.wchukai.rpcintruder.codec;
 
+import com.caucho.hessian.io.Hessian2Output;
+import com.wchukai.rpcintruder.service.RpcRequest;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
@@ -27,9 +30,16 @@ public class HessianCodecTest {
 
     @Test
     public void doEncode() throws Exception {
-        byte[] bytes = codec.doEncode(bean);
-        Object actual = codec.doDecode(new ByteArrayInputStream(bytes));
-        assertThat(actual).isEqualToComparingFieldByField(bean);
+        RpcRequest rpcRequest = new RpcRequest();
+        rpcRequest.setClassName("com.wchukai.service0.HelloWorldService0");
+        rpcRequest.setMethodName("hello");
+        rpcRequest.setArgs(new Object[]{""});
+
+        ByteArrayOutputStream byteArray = new ByteArrayOutputStream();
+        Hessian2Output output = new Hessian2Output(byteArray);
+        output.writeObject(rpcRequest);
+        output.close();
+
     }
 
 
