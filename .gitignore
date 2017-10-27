@@ -4,3 +4,6 @@ target/*
 .project
 *.iml
 .idea/
+examples/web-sdk/target/
+examples/web/target/
+examples/web-service/target/
