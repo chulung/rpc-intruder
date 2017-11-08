@@ -19,7 +19,7 @@ maven
 
 查看与Dubbo共存的[examples](/examples)
 
-##2.1 Service端
+## 2.1 Service端
 
 假设service起在本地，http端口为8080
 
@@ -55,7 +55,7 @@ web.xml
 
         RPC Intruder enabled!
 
-##2.2 client端
+## 2.2 client端
 
     <bean class="com.wchukai.rpcintruder.client.ClientConfiguration">
         <property name="classNames">
