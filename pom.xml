@@ -40,6 +40,7 @@
         <slf4j-log4j12.version>1.6.2</slf4j-log4j12.version>
         <assertj-core.version>3.6.2</assertj-core.version>
         <jackson-databind.version>2.8.9</jackson-databind.version>
+        <skipgpg>false</skipgpg>
     </properties>
 
     <dependencies>
@@ -169,6 +170,9 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-gpg-plugin</artifactId>
                 <version>1.5</version>
+                <configuration>
+                    <skip>${skipgpg}</skip>
+                </configuration>
                 <executions>
                     <execution>
                         <id>sign-artifacts</id>
