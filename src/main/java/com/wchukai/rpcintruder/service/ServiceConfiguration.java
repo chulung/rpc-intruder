@@ -1,7 +1,7 @@
 package com.wchukai.rpcintruder.service;
 
 import com.wchukai.rpcintruder.service.context.InvocationContext;
-import com.wchukai.rpcintruder.service.context.InvokeFilter;
+import com.wchukai.rpcintruder.service.context.AbstractInvokeFilter;
 import com.wchukai.rpcintruder.util.PackageScanner;
 import com.wchukai.rpcintruder.util.PropertyUtil;
 import com.wchukai.rpcintruder.util.StringUtil;
@@ -17,7 +17,7 @@ public class ServiceConfiguration {
     private static final Logger LOGGER = LoggerFactory.getLogger(InvocationContext.class);
     private List<String> classNames = new ArrayList<>();
     private boolean enabled;
-    private InvokeFilter invokeFilter;
+    private AbstractInvokeFilter invokeFilter;
 
     public List<String> getClassNames() {
         return classNames;
@@ -74,18 +74,18 @@ public class ServiceConfiguration {
         }
         String filterClass = properties.getProperty("rpc.intruder.invoke.filter");
         if (StringUtil.isNotEmpty(filterClass)) {
-            this.invokeFilter = (InvokeFilter) Class.forName(filterClass).newInstance();
+            this.invokeFilter = (AbstractInvokeFilter) Class.forName(filterClass).newInstance();
         }
         if (LOGGER.isInfoEnabled()) {
             LOGGER.info("{}", this.toString());
         }
     }
 
-    public InvokeFilter getInvokeFilter() {
+    public AbstractInvokeFilter getInvokeFilter() {
         return invokeFilter;
     }
 
-    public void setInvokeFilter(InvokeFilter invokeFilter) {
+    public void setInvokeFilter(AbstractInvokeFilter invokeFilter) {
         this.invokeFilter = invokeFilter;
     }
 

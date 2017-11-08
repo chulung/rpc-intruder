@@ -9,7 +9,7 @@ import java.io.InputStream;
 /**
  * @author chukai
  */
-public class AssetsAction extends Action {
+public class AssetsAction extends AbstractAction {
     @Override
     public Object doAction(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String path = request.getParameter("path");

@@ -3,7 +3,7 @@ package com.wchukai.rpcintruder.service.context;
 /**
  * @author chukai
  */
-public abstract class InvokeFilter {
+public abstract class AbstractInvokeFilter {
     /**
      * @param invokerBody the invokeBody
      * @return result

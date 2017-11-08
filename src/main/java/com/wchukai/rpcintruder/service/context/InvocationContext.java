@@ -95,10 +95,6 @@ public class InvocationContext implements ApplicationContextAware, ApplicationLi
         }
     }
 
-    private void resolveBeans(List<String> classeNames) {
-
-    }
-
     public Object invoke(Integer id, String argsJson) throws Exception {
         MethodInfo methodInfo = this.methodIdMap.get(id);
         if (methodInfo == null) {
@@ -110,15 +106,6 @@ public class InvocationContext implements ApplicationContextAware, ApplicationLi
 
 
     public Object invoke(RpcRequest rpcRequest) throws Exception {
-        Object[] args1 = rpcRequest.getArgs();
-        Class[] parameterTypes = new Class[args1.length];
-        if (args1 != null) {
-            for (int i = 0; i < args1.length; i++) {
-                parameterTypes[i] = args1[i].getClass();
-            }
-        } else {
-            parameterTypes = new Class[0];
-        }
         String fullMethodKey = handleMethodKey(rpcRequest.getClassName(), rpcRequest.getMethodName(), rpcRequest.getArgsType());
         MethodInfo methodInfo = this.methodNameMap.get(fullMethodKey);
         if (methodInfo == null) {
@@ -128,7 +115,7 @@ public class InvocationContext implements ApplicationContextAware, ApplicationLi
         if (methodInfo == null) {
             throw new NoSuchMethodException(fullMethodKey);
         }
-        return invoke(new InvokerBody(methodInfo, args1, rpcRequest));
+        return invoke(new InvokerBody(methodInfo, rpcRequest.getArgs(), rpcRequest));
     }
 
     private Object invoke(InvokerBody invokerBody) throws Exception {

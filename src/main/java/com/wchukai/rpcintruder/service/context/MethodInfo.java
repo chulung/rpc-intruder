@@ -12,14 +12,14 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @author chukai
  */
 public class MethodInfo {
-    private static final ObjectMapper objectMapper = new ObjectMapper();
+    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
     static {
-        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        objectMapper.enableDefaultTyping();
+        OBJECT_MAPPER.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        OBJECT_MAPPER.enableDefaultTyping();
     }
 
-    private static final AtomicInteger atomicId = new AtomicInteger(1);
+    private static final AtomicInteger ATOMIC_ID = new AtomicInteger(1);
     @JsonIgnore
     private BeanInfo beanInfo;
     private Integer id;
@@ -29,7 +29,7 @@ public class MethodInfo {
     private String argsInfo;
 
     public MethodInfo(BeanInfo beanInfo, Method method) {
-        this.id = atomicId.getAndIncrement();
+        this.id = ATOMIC_ID.getAndIncrement();
         this.beanInfo = beanInfo;
         this.method=method;
         Class<?>[] parameterTypes = method.getParameterTypes();

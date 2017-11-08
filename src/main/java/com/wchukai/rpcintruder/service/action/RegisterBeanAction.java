@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * @author chukai
  */
-public class RegisterBeanAction extends Action {
+public class RegisterBeanAction extends AbstractAction {
     @Override
     public Object doAction(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String className = request.getParameter("className");

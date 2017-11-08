@@ -25,7 +25,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class ServiceServlet extends HttpServlet {
     private static Logger logger = LoggerFactory.getLogger(ServiceServlet.class);
-    private static final Map<String, Action> actions = new HashMap() {
+    private static final Map<String, AbstractAction> ACTIONS = new HashMap() {
         {
             put("asset", new AssetsAction());
             put("index", new IndexAction());
@@ -41,19 +41,19 @@ public class ServiceServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if (!InvocationContext.getInstance().isEnabled()) {
             try (PrintWriter out = response.getWriter()) {
-                response.setStatus(200); // , "RPC Requires POST");
+                response.setStatus(200);
                 response.setContentType("text/html");
                 out.println("<h1>RPC Intruder disabled</h1>");
             }
             return;
         }
         String act = request.getParameter("action");
-        if (act != null && actions.get(act) != null) {
-            actions.get(act).execute(request, response);
+        if (act != null && ACTIONS.get(act) != null) {
+            ACTIONS.get(act).execute(request, response);
             return;
         }
         try (PrintWriter out = response.getWriter()) {
-            response.setStatus(200); // , "RPC Requires POST");
+            response.setStatus(200);
             response.setContentType("text/html");
             out.println("<h1>RPC Intruder enabled!</h1>");
         }

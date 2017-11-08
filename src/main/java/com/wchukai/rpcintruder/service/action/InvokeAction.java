@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * @author chukai
  */
-public class InvokeAction extends Action {
+public class InvokeAction extends AbstractAction {
 
 
     @Override

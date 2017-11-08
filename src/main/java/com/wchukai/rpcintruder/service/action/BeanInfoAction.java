@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * @author chukai
  */
-public class BeanInfoAction extends Action {
+public class BeanInfoAction extends AbstractAction {
     @Override
     public Object doAction(HttpServletRequest request, HttpServletResponse response) throws Exception {
         return InvocationContext.getInstance().getBeanInfoCache();

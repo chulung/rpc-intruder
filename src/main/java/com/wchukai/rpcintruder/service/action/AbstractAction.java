@@ -17,7 +17,7 @@ import java.util.Map;
 /**
  * @author chukai
  */
-public abstract class Action {
+public abstract class AbstractAction {
     public static final String APPLICATION_JSON_CHARSET_UTF_8 = "application/json; charset=utf-8";
     public static final int ERROR_CODE = -1;
     public static final int SUCCESS_CODE = 0;
@@ -29,14 +29,14 @@ public abstract class Action {
         try {
             result = doAction(request, response);
             if (result != null) {
-                Map<String, Object> jsonObj = new HashMap<>();
+                Map<String, Object> jsonObj = new HashMap<>(2);
                 jsonObj.put("code", SUCCESS_CODE);
                 jsonObj.put("result", result);
                 response.setContentType(APPLICATION_JSON_CHARSET_UTF_8);
                 responseWriter.writeValue(response.getOutputStream(), jsonObj);
             }
         } catch (ActionException e) {
-            Map<String, Object> jsonObj = new HashMap<>();
+            Map<String, Object> jsonObj = new HashMap<>(2);
             jsonObj.put("code", ERROR_CODE);
             jsonObj.put("error", e.getMessage());
             response.setContentType(APPLICATION_JSON_CHARSET_UTF_8);
@@ -50,7 +50,7 @@ public abstract class Action {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             ex.printStackTrace(new PrintStream(baos));
             String exception = baos.toString();
-            Map<String, Object> jsonObj = new HashMap<>();
+            Map<String, Object> jsonObj = new HashMap<>(2);
             jsonObj.put("code", ERROR_CODE);
             jsonObj.put("error", exception);
             response.setContentType(APPLICATION_JSON_CHARSET_UTF_8);
@@ -58,5 +58,12 @@ public abstract class Action {
         }
     }
 
+    /**
+     * 处理action
+     * @param request HttpServletRequest
+     * @param response HttpServletResponse
+     * @return result
+     * @throws Exception do action error
+     */
     public abstract Object doAction(HttpServletRequest request, HttpServletResponse response) throws Exception;
 }

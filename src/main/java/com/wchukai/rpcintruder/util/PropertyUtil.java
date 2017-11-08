@@ -4,7 +4,8 @@ import java.io.InputStream;
 import java.util.Properties;
 
 /**
- * Created by chukai on 2017/10/25.
+ *
+ * @author chukai
  */
 public class PropertyUtil {
 

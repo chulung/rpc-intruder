@@ -2,6 +2,9 @@ package com.wchukai.rpcintruder.service.context;
 
 import com.wchukai.rpcintruder.service.RpcRequest;
 
+/**
+ * @author chukai
+ */
 public class InvokerBody {
     private final MethodInfo methodInfo;
     private final Object[] args;
