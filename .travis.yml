@@ -10,7 +10,7 @@ addons:
       secure: ${SONAR_TOKEN}
 
 script:
-  - "mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar"
+  - "mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install -Dskipgpg=true sonar:sonar "
 
 cache:
   directories:
