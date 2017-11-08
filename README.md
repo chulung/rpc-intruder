@@ -17,9 +17,9 @@ maven
             <version>1.0.0</version>
         </dependency>
 
-查看与Dubbo共存的[examples](/examples)
+查看与Dubbo共存的[示例](/examples)
 
-##2.1 Service端
+## 2.1 Service端
 
 假设service起在本地，http端口为8080
 
@@ -55,7 +55,7 @@ web.xml
 
         RPC Intruder enabled!
 
-##2.2 client端
+## 2.2 client端
 
     <bean class="com.wchukai.rpcintruder.client.ClientConfiguration">
         <property name="classNames">
@@ -91,7 +91,7 @@ web.xml
 
 ![](https://static.wchukai.com/group1/M00/00/01/cHx_F1oCw3aAc6XeAABoQandamk553.png)
 
-通过输入 http://127.0.0.1/rpc-intruder?action=index 可进入接口测试页面
+通过输入`http://127.0.0.1/rpc-intruder?action=index` 可进入接口测试页面
 
 # 5.扩展阅读
 
