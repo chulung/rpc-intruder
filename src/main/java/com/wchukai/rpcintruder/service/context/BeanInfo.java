@@ -28,6 +28,10 @@ public class BeanInfo {
         Method[] declaredMethods = this.clazz.getDeclaredMethods();
         methodInfos = new ArrayList<>(declaredMethods.length);
         for (Method method : declaredMethods) {
+            // i.E. jacoco coverage analysis
+            if(method.isSynthetic()){
+                continue;
+            }
             methodInfos.add(new MethodInfo(this, method));
         }
         Collections.sort(methodInfos, new Comparator<MethodInfo>() {
