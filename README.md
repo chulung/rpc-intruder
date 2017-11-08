@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/wchukai/rpc-intruder.svg?branch=master)](https://travis-ci.org/wchukai/rpc-intruder)[![codecov](https://codecov.io/gh/wchukai/rpc-intruder/branch/master/graph/badge.svg)](https://codecov.io/gh/wchukai/rpc-intruder)[![Quality Gate](https://sonarqube.com/api/badges/gate?key=com.wchukai:rpc-intruder)](https://sonarqube.com/dashboard/index/com.wchukai:rpc-intruder)
+
+
 # 1.RPC-intruder
 RPC-intruder 是一个用于开发过程中的RPC辅助测试框架。
 
