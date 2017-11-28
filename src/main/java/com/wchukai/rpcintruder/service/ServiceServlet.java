@@ -76,6 +76,7 @@ public class ServiceServlet extends HttpServlet {
             rpcResponse.setResponse(rs);
             codec.doEncode(rpcResponse, out);
         } catch (Exception e) {
+            rpcResponse.setResponse(null);
             rpcResponse.setException(e.getCause() != null ? e.getCause() : e);
             codec.doEncode(rpcResponse, out);
         } finally {
