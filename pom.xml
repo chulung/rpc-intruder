@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.wchukai</groupId>
     <artifactId>rpc-intruder</artifactId>
-    <version>1.0.1.1</version>
+    <version>1.0.1</version>
     <name>rpc-intruder</name>
     <description>A RPC testing support framework.</description>
     <url>https://github.com/wchukai/rpc-intruder</url>
