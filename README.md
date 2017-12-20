@@ -18,7 +18,7 @@ maven
         <dependency>
             <groupId>com.wchukai</groupId>
             <artifactId>rpc-intruder</artifactId>
-            <version>1.0.0</version>
+            <version>1.0.1</version>
         </dependency>
 
 查看与Dubbo共存的[示例](/examples)
